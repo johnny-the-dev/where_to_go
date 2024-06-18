@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.templatetags.static import static
+from django.urls import reverse
 
 from .models import Place
 
@@ -19,7 +19,7 @@ def index(request):
             "properties": {
                 "title": place.title,
                 "placeId": place.placeId,
-                "detailsUrl": static(f'places/{place.placeId}.json'),  # TODO добавить рабочую ссылку
+                "detailsUrl": reverse('place_detail', kwargs={'place_id': place.placeId}),
             }
         })
     places_geojson = {
@@ -32,7 +32,7 @@ def index(request):
 
 def place_detail_view(request, place_id):
     place = get_object_or_404(Place, placeId=place_id)
-    imgs_urls = list(place.images.all().values_list('image', flat=True))
+    imgs_urls = [image.get_absolute_url() for image in place.images.all()]
     coordinates = {
         'lat': place.coords.lat,
         'lng': place.coords.lng

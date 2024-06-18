@@ -29,6 +29,9 @@ class PlaceImage(models.Model):
     def __str__(self) -> str:
         return f'{self.number or ""} "{self.place.title}"'
 
+    def get_absolute_url(self):
+        return self.image.storage.url(self.image.name)
+
 
 class PlaceCoordinate(models.Model):
     lng = models.CharField(max_length=10)
