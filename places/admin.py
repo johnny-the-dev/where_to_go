@@ -18,6 +18,7 @@ class PlaceCoordinateInline(admin.StackedInline):
 class PlaceAdmin(admin.ModelAdmin):
     list_display = ("id", "title")
     ordering = ('title',)
+    prepopulated_fields = {'placeId': ('title',)}
     inlines = [PlaceImageInline, PlaceCoordinateInline]
 
     def get_list_display_links(self, request, list_display):
