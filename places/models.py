@@ -18,13 +18,14 @@ class Place(models.Model):
 
 
 class PlaceImage(models.Model):
-    number = models.IntegerField(verbose_name="Позиция", null=True, blank=True)
+    number = models.PositiveIntegerField(verbose_name="Позиция", default=0, db_index=True)
     image = models.ImageField(upload_to="images/", verbose_name="Изображение")
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="images", verbose_name='Локация')
 
     class Meta:
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
+        ordering = ("number",)
 
     def __str__(self) -> str:
         return f'{self.number or ""} "{self.place.title}"'
