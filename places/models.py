@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce import models as tinymace_models
 
 
 # Create your models here.
@@ -7,7 +8,7 @@ class Place(models.Model):
     title_full = models.CharField(max_length=200)
     placeId = models.SlugField(max_length=200, unique=True, null=True, blank=True)
     description_short = models.CharField(max_length=200)
-    description_long = models.TextField()
+    description_long = tinymace_models.HTMLField()
 
     class Meta:
         verbose_name = "Локация"
