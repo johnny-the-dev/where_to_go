@@ -18,8 +18,8 @@ def index(request):
             },
             "properties": {
                 "title": place.title,
-                "placeId": place.placeId,
-                "detailsUrl": reverse('place_detail', kwargs={'place_id': place.placeId}),
+                "placeId": place.place_id,
+                "detailsUrl": reverse('place_detail', kwargs={'place_id': place.place_id}),
             }
         })
     places_geojson = {
@@ -31,7 +31,7 @@ def index(request):
 
 
 def place_detail_view(request, place_id):
-    place = get_object_or_404(Place, placeId=place_id)
+    place = get_object_or_404(Place, place_id=place_id)
     imgs_urls = [image.get_absolute_url() for image in place.images.all()]
     coordinates = {
         'lat': place.coords.lat,

@@ -6,8 +6,8 @@ from tinymce import models as tinymace_models
 class Place(models.Model):
     title = models.CharField(max_length=200)
     title_full = models.CharField(max_length=200)
-    placeId = models.SlugField(max_length=200, unique=True, null=True, blank=True)
-    description_short = models.CharField(max_length=200)
+    place_id = models.SlugField(unique=True, db_index=True, blank=True)
+    description_short = models.CharField(max_length=300)
     description_long = tinymace_models.HTMLField()
 
     class Meta:

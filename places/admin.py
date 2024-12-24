@@ -33,7 +33,7 @@ class PlaceCoordinateInline(admin.StackedInline):
 class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ("id", "title")
     ordering = ('title',)
-    prepopulated_fields = {'placeId': ('title',)}
+    prepopulated_fields = {'place_id': ('title',)}
     inlines = [PlaceCoordinateInline, PlaceImageInline]
 
     def get_list_display_links(self, request, list_display):
