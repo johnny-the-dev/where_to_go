@@ -1,18 +1,28 @@
 from django.db import models
+from slugify import slugify
 from tinymce import models as tinymace_models
 
 
-# Create your models here.
 class Place(models.Model):
-    title = models.CharField(max_length=200)
-    title_full = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, db_index=True, unique=True)
+    title_full = models.CharField(max_length=200, blank=True)
     place_id = models.SlugField(unique=True, db_index=True, blank=True)
-    description_short = models.CharField(max_length=300)
+    description_short = models.CharField(max_length=500)
     description_long = tinymace_models.HTMLField()
 
     class Meta:
         verbose_name = "Локация"
         verbose_name_plural = "Локации"
+
+    def save(self, *args, **kwargs):
+        if not self.title_full:
+            self.title_full = self.title
+
+        if not self.place_id:
+            self.place_id = slugify(self.title)
+            while Place.objects.filter(place_id=self.place_id).exists():
+                self.place_id += "1"
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.title)
