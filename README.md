@@ -8,6 +8,11 @@ This is a Django project to show places on a map and provide descriptions.
 * Provide descriptions for places
 * Show photos of places
 
+## Usage
+
+1. Open a web browser and navigate to `https://johnnythedev.pythonanywhere.com/`
+2. Click on a place on the map to show its description
+
 ## Installation
 
 1. Clone the repository
@@ -15,15 +20,38 @@ This is a Django project to show places on a map and provide descriptions.
 3. Install the dependencies with `pip install -r requirements.txt`
 4. Create a database and configure it in `settings.py`
 5. Run `python manage.py migrate` to create the database tables
-6. Run `python manage.py loaddata places.json` to load the initial data
-7. Run `python manage.py runserver` to start the server
+6. Run `python manage.py runserver` to start the server
 
-## Usage
+### Loading Places
+Optionally you can load places into the database using the console
 
-1. Open a web browser and navigate to `https://johnnythedev.pythonanywhere.com/`
-2. Click on a place on the map to show its description
-3. Click on a category to filter the places
-4. Click on a photo to show it in a carousel
+- Run `python manage.py load_place <url_to_data_json>`
+
+#### Example of a JSON file
+```json
+{
+    "title": "Place name",
+    "title_full": "Place full name (optional)",
+    "imgs": [
+        "https://image1.jpg",
+        "https://image2.jpg",
+        "https://image3.jpg",
+    ],
+    "description_short": "Short description of the place",
+    "description_long": "<p>Use html tags to define the structure of your text</p><p>Long description of the place</p><address class=\"post-list-item-info\"><span class=\"address\"><i class=\"font-icon icon-location\"> my_address </i> </span></address>",
+    "coordinates": {
+        "lng": "38.68171061700625",
+        "lat": "55.31744823804868"
+    }
+}
+```
+
+### Creating a Superuser
+
+   - Open the command line terminal.
+   - Navigate to the root directory of the project.
+   - Run the command: `python manage.py createsuperuser`
+   - Enter the username, email, and password as prompted.
 
 ## Moderator Documentation
 
@@ -34,6 +62,8 @@ As a moderator, you have the ability to add new places and images, as well as ed
 1. **Log in to the Admin Panel:**
    - Navigate to the admin panel using the URL: `https://johnnythedev.pythonanywhere.com/admin`.
    - Use your assigned moderator credentials to log in.
+
+   - ***Test credentials:*** username: `moderator`, password: `moderpass`
 
 2. **Add a New Place:**
    - In the admin panel, click on "Локации" under the "Локации" section.
@@ -63,10 +93,3 @@ As a moderator, you have the ability to add new places and images, as well as ed
    - Click on the image you want to edit.
    - Modify the image details or replace the image file as needed.
    - Save the changes by clicking the "Сохранить" button.
-
-### Creating a Superuser
-
-   - Open the command line terminal.
-   - Navigate to the root directory of the project.
-   - Run the command: `python manage.py createsuperuser`
-   - Enter the username, email, and password as prompted.
