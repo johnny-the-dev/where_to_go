@@ -1,28 +1,28 @@
-from django.core.management.base import BaseCommand
-import requests
-from requests.exceptions import RequestException
-from io import BytesIO
-from django.core.files.images import ImageFile
-from django.core.exceptions import ValidationError
 import logging
+from io import BytesIO
+
+import requests
+from django.core.exceptions import ValidationError
+from django.core.files.images import ImageFile
+from django.core.management.base import BaseCommand
+from requests.exceptions import RequestException
 
 from places.models import Place, PlaceCoordinate, PlaceImage
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger = logging.getLogger("commands.load_place")
 
 
 class Command(BaseCommand):
     help = 'Load places into the database from a given URL'
 
     def add_arguments(self, parser):
-        parser.add_argument('url', nargs='+', type=str)
+        parser.add_argument('urls', nargs='+', type=str)
 
     def handle(self, *args, **options):
-        source_url = options['url'][0]
+        url = options['urls'][0]
 
         try:
-            response = requests.get(source_url, timeout=5)
+            response = requests.get(url, timeout=5)
             response.raise_for_status()
         except RequestException as error:
             logger.error('Failed to load place: %s', error)
@@ -48,6 +48,8 @@ class Command(BaseCommand):
                 lat=coordinates.get('lat', ''),
                 lng=coordinates.get('lng', ''),
             )
+        else:
+            logger.warning('Place %s has no coordinates', place.title)
 
         for img_url in imgs:
             try:
