@@ -5,7 +5,6 @@ from django.urls import reverse
 from .models import Place
 
 
-# Create your views here.
 def index(request):
     places = Place.objects.all()
     features = []
