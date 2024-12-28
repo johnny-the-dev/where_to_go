@@ -51,7 +51,7 @@ class Command(BaseCommand):
         else:
             logger.warning('Place %s has no coordinates', place.title)
 
-        for img_url in imgs:
+        for number, img_url in enumerate(imgs, 1):
             try:
                 img_response = requests.get(img_url, timeout=5)
                 img_response.raise_for_status()
@@ -64,6 +64,7 @@ class Command(BaseCommand):
             PlaceImage.objects.create(
                 place=place,
                 image=image_file,
+                number=number
             )
 
         logger.info('Place %s loaded successfully', place.title)
